@@ -1,0 +1,147 @@
+﻿/* 1. Afficher le nom et l'année des 6 premiers films par ordre alphabétique */
+/* Recopier le résultat */
+
+
+
+/* 2. Combien y a-t-il de films produits entre 1946 et 1962 ? */
+
+
+
+/* 3. Afficher les nom et année des films qui commencent par la lettre 'M' classés par année */
+
+
+
+/* 4. Afficher la liste des nationalités de films (éliminer les doublons) pour votre liste de films */
+
+
+
+/* 5. Afficher le nom des artistes dont le prénom est soit Mike, soit Lucy */
+
+
+
+/* 6. Afficher le titre du film, le nom original et l'année de production des 5 films les plus récents de votre liste, classés du plus récent au plus ancien */
+
+
+
+/* 7. Afficher le nombre de films américains ou français dans votre liste */
+
+
+
+/* 8. Afficher les nom et type des artistes du film "Le Chemin des aigles" */
+
+
+
+/* 9. Remplacer les films de genre "court-métrage" par "autre genre" */
+
+
+
+/* 10. Remplacer les nationalités des films "français" par "France" */
+
+
+
+/* 11. Insérer les films suivants : */
+
+
+
+/* 12. a) Afficher le nombre de films de nationalité "américains"
+       b) Supprimer les films de nationalité "américains"
+       c) Ré-afficher le nombre de films de nationalité "américains" pour vérifier */
+
+
+
+
+
+
+
+1/select film_titre,film_anneeproduction from film order by film_titre asc limit 6
+
+25-132
+1993
+A Chair
+1970
+A Dance Party in the Kingdom of Lilliput
+1964
+A Estrangeira
+1982
+Adieu Jesus
+1970
+Antti de la Branche
+1976
+
+
+2/select count(film_anneeproduction) from film where film_anneeproduction between 1946 and 1962
+
+9
+
+3/SELECT film_titre,film_anneeproduction from film where film_titre like 'M%' order by film_anneeproduction
+
+Mefiez-vous des corbeaux
+1990
+Matticara
+1991
+Mizike Mama
+1992
+Moi Ivan, toi Abraham
+1992
+Ma saison préférée
+1993
+Menace II society
+1993
+My crazy life
+1993
+Mixed nuts
+1994
+
+
+
+
+4/select f.film_id,f.film_titre,n.nat_film_id,n.nat_pays from film f inner join nationalite n on n.nat_film_id = f.film_id
+
+
+
+5/SELECT art_nom from artiste where art_nom='Mike' and art_nom='Lucy'
+
+
+
+6/SELECT film_titre,film_anneeproduction,film_titreoriginal From film ORDER BY film_anneeproduction desc limit 5
+
+Flores de Otro Mundo
+1999
+Siam Sunset
+1999
+Spawn
+1997
+Tempête dans un verre d'eau
+1997
+XXL
+1997
+
+
+7/select COUNT(n.nat_pays),n.nat_film_id,f.film_id
+from nationalite n
+inner join film f
+on n.nat_film_id = f.film_id
+wHERE n.nat_pays = 'français' or n.nat_pays = 'américain'
+
+45
+
+
+8/SELECT f.film_id,f.film_titre,fa.filmart_artiste_id,fa.filmart_film_id,a.art_id,a.art_nom FROM film f INNER JOIN film_artiste fa on f.film_id=fa.filmart_film_id inner join artiste a on fa.filmart_artiste_id = a.art_id where f.film_titre = "Le Chemin des aigles"
+
+9/UPDATE film SET film_genre='autre-genre' WHERE film_genre='court métrage'
+
+10/UPDATE nationalite SET nat_pays='france' WHERE nat_pays='français'
+
+11/
+INSERT INTO artiste(art_nom) values('Nicola Bruce')
+insert into artiste(art_nom) values('Stephen Rea'),('Maria Doyle Kennedy'),('Dermot Healy')
+INSERT INTO film_artiste(filmart_film_id,filmart_artiste_id,filmart_type) values('0','197056','realisateur')
+INSERT INTO film_artiste(filmart_film_id,filmart_artiste_id,filmart_type) values('0','179076','acteur'),('0','196849','acteur'),('0','197055','acteur')
+INSERT INTO nationalite(nat_film_id,nat_pays) values('0','irlandais')
+
+
+/12
+SELECT count(nat_pays) FROM `nationalite` WHERE nat_pays="américain"
+delete FROM `nationalite` WHERE nat_pays="américain"
+SELECT count(nat_pays) FROM `nationalite` WHERE nat_pays="américain"
+

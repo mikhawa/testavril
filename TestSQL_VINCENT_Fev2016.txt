@@ -1,0 +1,192 @@
+/* 1. Afficher le nom et l'année des 7 premiers films par ordre alphabétique */
+
+SELECT film_titre,film_anneeproduction
+FROM film ORDER BY film_titre ASC LIMIT 7;
+
+A la mode
+1958
+A la recherche du mari de ma femme
+1993
+Aïe, mes aieux!
+1926
+Alice Chops the Suey
+1925
+Au bout de la nuit, la liberte
+1997
+Ayrton la bete
+1994
+Balzac
+1950
+
+
+/* 2. Combien y a-t-il de films produits entre 1972 et 1982 ? */
+
+SELECT COUNT(*) FROM FILM
+WHERE film_anneeproduction<=1982 
+AND film_anneeproduction>=1972;
+
+COUNT(*)
+9
+
+
+/* 3. Afficher les nom et année des films qui commencent par la lettre 'V' classés par année */
+
+SELECT film_titre,film_anneeproduction
+FROM film WHERE film_titre LIKE 'V%'
+ORDER BY film_anneeproduction;
+
+Vacas
+1991
+
+
+/* 4. Afficher la liste des nationalités de films (éliminer les doublons) pour votre liste de films */
+
+SELECT DISTINCT nat_pays FROM nationalite,film
+WHERE nat_film_id=film_id;
+
+français
+américain
+portugais
+italien
+canadien
+indien
+allemand
+japonais
+singapourien
+britannique
+slovaque
+suédois
+finlandais
+taïwanais
+algérien
+égyptien
+tunisien
+libanais
+marocain
+espagnol
+
+
+/* 5. Afficher le nom des artistes dont le prénom est soit Vincent, soit Pierre */
+
+SELECT art_nom FROM artiste WHERE art_nom="Vincent" OR art_nom="Pierre";
+
+Pierre
+
+
+/* 6. Afficher le titre du film, le nom original et l'année de production des 5 films les plus récents de votre liste, classés du plus récent au plus ancien */
+
+SELECT film_titre,film_titreoriginal,film_anneeproduction 
+FROM film ORDER BY film_anneeproduction DESC LIMIT 5;
+
+Joyeux Noel
+1998
+J'irai au paradis car l'enfer est ici
+1997
+Shier Lou
+1997
+Une Vraie blonde
+The Real Blonde
+1997
+Loved
+1997
+
+
+/* 7. Afficher le nombre de films italiens ou autrichiens dans votre liste */
+
+SELECT COUNT(nat_pays) FROM nationalite,film
+WHERE nat_film_id=film_id AND nat_pays="italiens" 
+OR nat_pays="autrichiens";
+
+COUNT(nat_pays)
+0
+
+
+
+/* 8. Afficher les nom et type des artistes du film "Le Carrousel fantastique" */
+
+SELECT art_nom,filmart_type FROM artiste,film_artiste,film
+WHERE filmart_artiste_id=art_id AND filmart_film_id=film_id
+AND film.film_titre="Le Carrousel fantastique";
+
+Sophia Loren
+acteur
+Ettore Giannini
+realisateur
+Leonide Massine
+acteur
+
+
+/* 9. Remplacer les films de genre "court métrage" par "autre genre" */
+
+UPDATE film SET film_genre="autre genre" WHERE
+film_genre="court métrage";
+
+ 24 lignes affectées.
+
+
+
+/* 10. Remplacer les nationalités des films "autrichiens" par "Autriche" */
+
+UPDATE nationalite SET nat_pays="Autriche" 
+WHERE nat_pays="autrichiens";
+
+
+/* 11. Insérer le film suivant : */
+Titre : Out
+AnnÈe : 1982
+Genre : Drame
+Titre original :
+RÈalisateurs : Eli Hollander
+Acteurs : Peter Coyote, Scott Beach, Gail Dartez
+NationalitÈ : amÈricain
+
+
+
+INSERT INTO film (film_titre,film_anneeproduction,film_genre,film_titreoriginal)
+VALUES ("Out","1982","Drame"," ");
+
+INSERT INTO artiste (art_nom)
+VALUES ("Eli Hollander"),("Peter Coyote"),("Scott Beach"),("Gail Darte");
+
+/*POUR RETROUVER LES ID
+SELECT art_nom,art_id,film_titre,film_id FROM artiste,film WHERE art_nom="Eli Hollander" AND film_titre="Out";
+SELECT art_nom,art_id,film_titre,film_id FROM artiste,film WHERE art_nom="Peter Coyote" AND film_titre="Out";
+SELECT art_nom,art_id,film_titre,film_id FROM artiste,film WHERE art_nom="Scott Beach" AND film_titre="Out";
+SELECT art_nom,art_id,film_titre,film_id FROM artiste,film WHERE art_nom="Gail Darte" AND film_titre="Out";
+*/
+
+INSERT INTO film_artiste (filmart_type,filmart_artiste_id,filmart_film_id)
+VALUES ("realisateur","213057","0"),("acteurs","213058","0"),("acteurs","213059","0"),("acteurs","213060","0")
+
+
+INSERT INTO nationalite (nat_film_id,nat_pays)
+VALUES ("0","americain");
+
+
+
+
+
+/* 12. a) Afficher le nombre de films de nationalité "italien"
+
+SELECT COUNT(nat_pays) FROM nationalite,film
+WHERE nat_film_id=film_id AND nat_pays="italien";
+
+resultat-> 7
+
+       b) Supprimer les films de nationalité "italien"
+
+DELETE f.* FROM film f,nationalite n
+WHERE n.nat_film_id=f.film_id AND n.nat_pays="italien";
+
+resultat-> 7 ligne supprimé
+
+       c) Ré-afficher le nombre de films de nationalité "italiens" pour vérifier */
+
+SELECT f.* FROM film f,nationalite n
+WHERE n.nat_film_id=f.film_id AND n.nat_pays="italien";
+
+resultat-> 0
+
+
+
+

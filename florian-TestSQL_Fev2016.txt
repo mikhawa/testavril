@@ -1,0 +1,143 @@
+﻿/* 1. Afficher le nom et l'année des 6 premiers films par ordre alphabétique */
+/* Recopier le résultat */
+
+SELECT film_titre,film_anneeproduction FROM `film` ORDER BY film_titre asc LIMIT 6
+
+
+/* 2. Combien y a-t-il de films produits entre 1975 et 1995 ? */
+
+SELECT film_titre,film_anneeproduction FROM film WHERE film_anneeproduction BETWEEN 1975 and 1995
+
+il y en a 36:
+
+Nature morte
+1975
+Hécate
+1982
+La Frite
+1982
+Tokyo Blues
+1986
+Nuage paradis
+1991
+Le Pas suspendu de la cigogne
+1991
+Désordre
+1986
+La Veritable Histoire d'AH-Q
+1981
+De l'autre cote du parc
+1991
+Sans couleur
+1991
+Comedian Harmonists
+1975
+Quadrophenia
+1980
+Sergent Pepper's Lonely Hearts Club Band
+1978
+Inspecteur Gadget
+1986
+L'Honneur d'un capitaine
+1982
+Sarraounia
+1986
+Noir et Blanc
+1986
+Chambre avec vue
+1986
+L'Homme qui regardait les fenetres
+1982
+La Derniere Image
+1986
+Manon des Sources
+1986
+Mauvais sang
+1986
+Fou a tuer
+1986
+Brisby et le secret de Nimh
+1982
+Le Camion
+1977
+Carrie au bal du diable
+1976
+La Memoire fertile
+1980
+La Cecilia
+1975
+Celeste
+1981
+Le Cercle infernal
+1977
+La Chèvre
+1981
+Le Choix de Sophie
+1982
+La Croisée des chemins
+1975
+Coup de torchon
+1981
+La Puritaine
+1986
+Le Sixième jour
+1986
+
+
+
+/* 3. Afficher les nom et année des films qui commencent par la lettre 'A' classés par année */
+
+SELECT film_titre,film_anneeproduction FROM film WHERE film_titre LIKE 'A%' ORDER BY film_anneeproduction
+
+Anemic Cinema
+1925
+Another day in paradise
+1998
+
+
+
+/* 4. Afficher la liste des nationalités de films (éliminer les doublons) pour votre liste de films */
+
+SELECT DISTINCT nat_pays FROM nationalite
+
+
+
+/* 5. Afficher le nom des artistes dont le prénom est soit Jean, soit Florian */
+
+
+SELECT art_nom FROM artiste where (art_nom LIKE'florian%') OR (art_nom LIKE'jean%')
+
+
+/* 6. Afficher le titre du film, le nom original et l'année de production des 5 films les plus récents de votre liste, classés du plus récent au plus ancien */
+
+
+SELECT film_titre,film_titreoriginal,film_anneeproduction FROM `film` order by film_anneeproduction DESC LIMIT 5
+
+
+/* 7. Afficher le nombre de films britanniques ou français dans votre liste */
+
+SELECT count(nat_film_id) FROM nationalite INNER JOIN film ON film_id = nat_film_id WHERE (nat_pays = "britanniques") OR (nat_pays = "français")
+
+
+/* 8. Afficher les nom et type des artistes du film "Monsieur Verdoux" */
+
+
+
+
+
+/* 9. Remplacer les films de genre "court-métrage" par "autre genre" */
+
+UPDATE film SET film_genre='autre genre' WHERE film_genre='court métrage';
+
+/* 10. Remplacer les nationalités des films "français" par "France" */
+
+UPDATE nationalite SET nat_pays='France' WHERE nat_pays='français';
+
+/* 11. Insérer les films suivants : */
+
+
+
+/* 12. a) Afficher le nombre de films de nationalité "britanniques"
+       b) Supprimer les films de nationalité "britanniques"
+       c) Ré-afficher le nombre de films de nationalité "britanniques" pour vérifier */
+

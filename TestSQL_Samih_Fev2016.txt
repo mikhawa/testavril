@@ -1,0 +1,154 @@
+﻿/* 1. Afficher le nom et l'année des 7 premiers films par ordre alphabétique */
+
+SELECT film_titre,film_anneeproduction FROM film  ORDER BY film_titre ASC LIMIT 7;
+
+Agnus Dei	1970
+Apsaras	1989
+Artemise, portrait d'une femme ordinaire	1988
+Au hasard Balthazar	1966
+Bhai Mian	1998
+Blanche et Claire	1987
+Cette nuit ou jamais	1972
+__________________________________________________________________________________________________________________
+
+
+
+/* 2. Combien y a-t-il de films produits entre 1990 et 2001 ? */
+
+SELECT COUNT(film_id) FROM film WHERE film_anneeproduction BETWEEN 1990 AND 2001 ;
+
+3
+__________________________________________________________________________________________________________________
+
+
+
+/* 3. Afficher les nom et année des films qui commencent par la lettre 'S' classés par année */
+
+select film_titre,film_anneeproduction from film where film_titre like "S%" order by film_anneeproduction ;
+
+Satyricon	1969
+Sur les traces du renard pale	1983
+Salsa	1989
+Seuls	1989
+__________________________________________________________________________________________________________________
+
+
+
+/* 4. Afficher la liste des nationalités de films (éliminer les doublons) pour votre liste de films */
+
+SELECT DISTINCT nat_pays from nationalite INNER JOIN film ON film_id = nat_film_id;
+
+polonais
+indien
+hongrois
+français
+américain
+suisse
+italien
+allemand
+britannique
+japonais
+ouest-allemand
+canadien
+suédois
+tchécoslovaque
+portugais
+belge
+cubain
+australien
+israélien
+malien
+__________________________________________________________________________________________________________________
+
+
+
+
+
+/* 5. Afficher le nom des artistes dont le prénom est soit Sam, soit Marie */
+
+SELECT art_nom from artiste where (art_nom LIKE "Sam %") OR (art_nom LIKE "Marie %");
+
+"résultat trop long"
+__________________________________________________________________________________________________________________
+
+
+
+
+
+/* 6. Afficher le titre du film, le nom original et l'année de production des 5 films les plus récents de votre liste, classés du plus récent au plus ancien */
+                                                                   (                avec un bonus         )
+SELECT film_titre,film_titreoriginal,film_anneeproduction from film WHERE film_anneeproduction IS NOT NULL order by film_anneeproduction ASC limit 5 ;
+
+
+
+Tigresse royale	Tigre Reale	1916
+Le Lys brisé	Broken Blossom	1919
+Le Montreur d'ombres	Schatten	1922
+Jean Chouan		1925
+L'Heure suprême	Seventh Heaven	1927
+La Petite marchande d'allumettes		1928
+__________________________________________________________________________________________________________________
+
+
+
+
+
+
+/* 7. Afficher le nombre de films italiens ou espagnols dans votre liste */
+
+SELECT count(nat_film_id) from nationalite INNER JOIN film ON film_id = nat_film_id WHERE (nat_pays = "Italien") OR (nat_pays = "Espagnol");
+
+9
+_________________________________________________________________________________________________________________
+
+
+
+
+/* 8. Afficher les nom et type des artistes du film "La Dolce Vita" */
+
+SELECT art_nom,filmart_type from artiste INNER JOIN film_artiste ON art_id = filmart_artiste_id INNER JOIN film ON film_id = filmart_film_id WHERE film_titre = "La Dolce Vita" ;
+
+
+Federico Fellini	realisateur
+Marcello Mastroianni	acteur
+Anouk Aimée	acteur
+Alain Cuny	acteur
+__________________________________________________________________________________________________________________
+
+
+
+
+/* 9. Remplacer les films de genre "court-métrage" par "autre genre" */
+
+UPDATE film SET film_genre = 'Autre genre' WHERE film_genre ='Court métrage';
+
+11 lignes affectées. (Traitement en 0.0156 sec)
+__________________________________________________________________________________________________________________
+
+
+
+
+/* 10. Remplacer les nationalités des films "italiens" par "Italie" */
+
+UPDATE nationalite INNER JOIN film ON nat_film_id = film_id SET nat_pays = 'Italie' WHERE nat_pays ='italien'
+
+9 lignes affectées. (Traitement en 0.0156 sec)
+__________________________________________________________________________________________________________________
+
+
+
+
+/* 11. Insérer les films suivants : */
+
+Je n'y arrive pas
+__________________________________________________________________________________________________________________
+
+/* 12. a) Afficher le nombre de films de nationalité "polonais"
+       b) Supprimer les films de nationalité "polonais"
+       c) Ré-afficher le nombre de films de nationalité "polonais" pour vérifier */
+
+SELECT count(nat_film_id) from nationalite INNER JOIN film ON film_id = nat_film_id WHERE nat_pays = "Polonais"
+
+DELETE FROM nationalite WHERE nat_pays = 'polonais'
+
+SELECT count(nat_film_id) from nationalite INNER JOIN film ON film_id = nat_film_id WHERE nat_pays = "Polonais"

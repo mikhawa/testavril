@@ -1,0 +1,171 @@
+﻿/* 1. Afficher le nom et l'année des 8 premiers films par ordre alphabétique */
+/* Recopier le résultat */
+
+
+SELECT film_titre,film_anneeproduction FROM film ORDER BY film_titre ASC LIMIT 8
+
+
+Afrique, je te plumerai
+2001
+Aristide Maillol, sculpteur
+1943
+Arnulf Rainer
+1958
+Automne, octobre a Alger
+1993
+Autour de Brazzaville
+1943
+Aux petits bonheurs
+1993
+Balancoires
+1928
+Bambuti
+1954
+
+_______________________________________________________________________________________________
+/* 2. Combien y a-t-il de films produits entre 1984 et 1992 ? */
+
+
+SELECT COUNT(film_titre) FROM film WHERE film_anneeproduction BETWEEN 1984 AND 1992
+
+COUNT(film_titre)
+5
+
+
+_______________________________________________________________________________________________
+/* 3. Afficher les nom et année des films qui commencent par la lettre 'G' classés par année */
+
+
+SELECT film_titre,film_anneeproduction FROM film WHERE film_titre LIKE 'G%' ORDER BY film_anneeproduction ASC
+
+Aucun
+
+
+_______________________________________________________________________________________________
+/* 4. Afficher la liste des nationalités de films (éliminer les doublons) pour votre liste de films */
+
+
+SELECT DISTINCT nationalite.nat_pays FROM nationalite,film WHERE nationalite.nat_film_id = film.film_id
+
+français
+algérien
+turc
+belge
+américain
+allemand
+britannique
+italien
+taïwanais
+ivoirien
+camerounais
+japonais
+centrafricain
+
+
+
+_______________________________________________________________________________________________
+/* 5. Afficher le nom des artistes dont le prénom est soit Guillaume, soit William */
+
+
+SELECT art_nom FROM artiste WHERE art_nom LIKE '% Guillaume %' OR art_nom LIKE '% William %'
+
+Roy William Neill
+James William Gledhill
+Seann William Scott
+Brad William Henke
+
+
+_______________________________________________________________________________________________
+/* 6. Afficher le titre du film, le nom original et l'année de production des 5 films les plus récents de votre liste, classés du plus récent au plus ancien */
+
+
+SELECT film_titre,film_titreoriginal,film_anneeproduction FROM film ORDER BY film_anneeproduction DESC LIMIT 5
+
+Afrique, je te plumerai
+2001
+Aux petits bonheurs
+1993
+Un monde parfait
+A Perfect World
+1993
+Automne, octobre a Alger
+1993
+Berlin in Berlin
+1993
+
+
+_______________________________________________________________________________________________
+/* 7. Afficher le nombre de films américains ou turcs dans votre liste */
+
+SELECT COUNT(film.film_titre) FROM nationalite,film WHERE nationalite.nat_film_id = film.film_id AND (nationalite.nat_pays = 'turc' OR nationalite.nat_pays = 'américain')
+
+11
+
+
+
+_______________________________________________________________________________________________
+/* 8. Afficher les nom et type des artistes du film "Un monde parfait" */
+
+
+SELECT artiste.art_nom,film_artiste.filmart_type FROM artiste,film,film_artiste WHERE film.film_id = film_artiste.filmart_film_id AND artiste.art_id = film_artiste.filmart_artiste_id AND film.film_titre = 'Un monde parfait'
+
+Clint Eastwood
+acteur
+Clint Eastwood
+realisateur
+Kevin Costner
+acteur
+Laura Dern
+acteur
+
+
+_______________________________________________________________________________________________
+/* 9. Remplacer les films de genre "court-métrage" par "autre genre" */
+
+
+UPDATE film SET film_genre ='autre genre' WHERE film_genre = 'Court métrage'
+
+
+
+
+_______________________________________________________________________________________________
+/* 10. Remplacer les nationalités des films "turcs" par "Turquie" */
+
+
+UPDATE nationalite SET nat_pays ='Turquie' WHERE nat_pays = 'turc'
+
+
+_______________________________________________________________________________________________
+/* 11. Insérer les films suivants : */
+
+Titre : Après la pluie (10036)
+Année : 1999
+Genre : Aventure, Drame
+Titre original : Ame agaru
+Réalisateurs : Takashi Koizumi (197046)
+Acteurs : Akira Terao(180393), Yoshiko Miyazaki(197044), Shiro Mifune(197045)
+Nationalité : japonais
+
+
+INSERT INTO film (film_id,film_titre,film_anneeproduction,film_genre,film_titreoriginal) VALUES (10036,'Après la pluie',1999,'Aventure, Drame','Ame agaru');
+INSERT INTO film_artiste (filmart_film_id,filmart_artiste_id,filmart_type) VALUES (10036,197046,'realisateurs'),(10036,180393,'acteur'),(10036,197044,'acteur'),(10036,197045,'acteur');
+INSERT INTO nationalite (nat_film_id,nat_pays) VALUES (10036,'japonais');
+
+
+
+_______________________________________________________________________________________________
+/* 12. a) Afficher le nombre de films de nationalité "américains"
+       b) Supprimer les films de nationalité "américains"
+       c) Ré-afficher le nombre de films de nationalité "américains" pour vérifier */
+
+
+SELECT COUNT(film.film_titre) FROM film,nationalite WHERE nationalite.nat_film_id = film.film_id AND nationalite.nat_pays = 'américain'
+
+9
+
+DELETE film,nationalite FROM film,nationalite WHERE film.film_id = nationalite.nat_film_id AND nationalite.nat_pays = 'américain'
+
+
+SELECT COUNT(film.film_titre) FROM film,nationalite WHERE nationalite.nat_film_id = film.film_id AND nationalite.nat_pays = 'américain'
+
+0
